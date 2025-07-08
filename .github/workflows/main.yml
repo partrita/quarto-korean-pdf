@@ -23,11 +23,11 @@ jobs:
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
         # 이 액션은 Pixi를 설정하고 워크플로우에서 사용할 수 있도록 합니다.
 
-      - name: Add Quarto and Font packages to Pixi environment
+      - name: Install dependencies
         run: |
-          # pixi를 사용하여 'quarto' 및 'font-ttf-noto-cjk'를 프로젝트 환경에 추가합니다.
-          # Pixi는 이들의 설치 및 가용성을 관리합니다.
-          pixi add quarto font-ttf-noto-cjk
+          # pixi.toml에 정의된 종속성을 설치합니다.
+          # setup-pixi 액션이 이미 이를 수행할 수 있지만, 명시적으로 실행하여 명확성을 확보합니다.
+          pixi install
 
       - name: Install TinyTeX via Quarto
         run: |
