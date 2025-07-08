@@ -1,0 +1,41 @@
+project:
+  type: book
+
+book:
+  title: "mybook"
+  author: "Taeyoon Kim"
+  date: "7/8/2025"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+link-citations: true
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+  pdf:
+    documentclass: report
+    papersize: a4
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    colorlinks: true
+    fig_width: 3
+    fig_height: 2
+    fig_caption: true
+    df_print: kable
+    highlight: tango
+    include-in-header: 
+      text: |
+        \usepackage{pdfpages}
+
+mainfont: "Noto Serif CJK KR"
+sansfont: "Noto Sans CJK KR"
+
+
