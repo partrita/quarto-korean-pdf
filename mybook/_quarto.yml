@@ -20,10 +20,6 @@ format:
       - cosmo
       - brand
   pdf:
-    latex-engine: xelatex # 한글 처리에 더 적합한 XeLaTeX 사용
-    mainfont: "Noto Serif CJK KR"
-    # mathfont: Noto Serif CJK KR # 수학 폰트 (선택 사항)
-    # monofont: Noto Mono CJK KR # 코드 블록 폰트 (선택 사항)
     documentclass: report
     papersize: a4
     toc: true
@@ -35,13 +31,11 @@ format:
     fig_caption: true
     df_print: kable
     highlight: tango
-    include-in-header:
+    include-in-header: 
       text: |
-        \usepackage{xeCJK}
-        \setCJKmainfont{Noto Sans CJK KR}
-        \setmonofont{Noto Sans Mono CJK KR}
+        \usepackage{pdfpages}
     
-#mainfont: "Noto Serif CJK KR"
-#sansfont: "Noto Sans CJK KR"
+mainfont: "Noto Serif CJK KR"
+sansfont: "Noto Sans CJK KR"
 
 

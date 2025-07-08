@@ -1,60 +1,50 @@
-name: CI
+name: Render PDF
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-  merge_group:
 
 jobs:
   build-quarto-book:
-    runs-on: ubuntu-latest # 러너 환경을 지정합니다.
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        # 이 단계는 'mybook' 디렉토리가 리포지토리의 일부인 경우를 포함하여 리포지토리 코드를 체크아웃합니다.
+
+      - name: Install Noto CJK Fonts and set locale
+        run: |
+          # 시스템 업데이트 및 Noto CJK 폰트 패키지 설치
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends fonts-noto-cjk fontconfig locales
+          sudo rm -rf /var/lib/apt/lists/*
 
       - name: Setup Pixi
         uses: prefix-dev/setup-pixi@v0.8.10
         with:
           cache: true
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
-        # 이 액션은 Pixi를 설정하고 워크플로우에서 사용할 수 있도록 합니다.
 
       - name: Add Quarto and Font packages to Pixi environment
         run: |
-          # pixi를 사용하여 'quarto' 및 'font-ttf-noto-cjk'를 프로젝트 환경에 추가합니다.
-          # Pixi는 이들의 설치 및 가용성을 관리합니다.
-          pixi add quarto font-ttf-noto-cjk
+          pixi install
 
       - name: Install TinyTeX via Quarto
         run: |
-          # pixi를 사용하여 Quarto 명령을 실행하여 TinyTeX를 설치합니다.
-          # TinyTeX는 Quarto로 PDF 문서를 렌더링하는 데 필수적입니다.
           pixi run quarto install tool tinytex
 
       - name: Update TinyTeX font cache
         run: |
-          # Pixi 환경에서 TinyTeX 명령을 실행하여 폰트 맵을 업데이트합니다.
-          pixi run fmtutil-sys --all
-          pixi run updmap-sys --force
-
-      # 다음 단계는 일반적으로 초기 프로젝트 생성에 사용되므로 주석 처리되었습니다.
-      # 'mybook' 프로젝트가 리포지토리에 존재하지 않고 워크플로우에 의해 생성되어야 하는 경우
-      # 아래 줄의 주석을 해제하십시오.
-      # - name: Create Quarto project (optional, uncomment if needed)
-      #   run: |
-      #     pixi run quarto create project book mybook
+          # fc-cache -fv 명령은 Noto CJK 폰트가 설치된 후 캐시를 업데이트합니다.
+          sudo fc-cache -fv
 
       - name: Render Quarto book to PDF
         # 이 단계는 Quarto 프로젝트 파일(예: .qmd 파일)이 리포지토리의
         # 'mybook'이라는 디렉토리 내에 있다고 가정합니다.
         run: |
-          # Quarto 프로젝트가 있는 'mybook' 디렉토리로 이동합니다.
           cd mybook
-          # pixi를 사용하여 Quarto 책을 PDF 형식으로 렌더링합니다.
           pixi run quarto render --to pdf
 
       - name: Upload PDF artifact
@@ -63,8 +53,7 @@ jobs:
           name: quarto-pdf-book
           path: mybook/mybook.pdf
           # 생성된 PDF 파일을 'quarto-pdf-book'이라는 이름의 아티팩트로 업로드합니다.
-          # 이 아티팩트는 다음 릴리스 작업에서 사용됩니다.
-
+          
   create-release:
     needs: build-quarto-book # 이 작업은 'build-quarto-book' 작업이 성공적으로 완료된 후에 실행됩니다.
     runs-on: ubuntu-latest

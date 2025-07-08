@@ -12,7 +12,6 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/deno-1.46.3-hcab8b69_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/deno-dom-0.1.41-h4768de7_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/esbuild-0.25.5-ha770c72_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/font-ttf-noto-cjk-2.004-h77eed37_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgcc-15.1.0-h767d61c_3.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libgomp-15.1.0-h767d61c_3.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/openssl-3.5.1-h7b32b05_0.conda
@@ -85,13 +84,6 @@ packages:
   license_family: MIT
   size: 3961976
   timestamp: 1748340129307
-- conda: https://conda.anaconda.org/conda-forge/noarch/font-ttf-noto-cjk-2.004-h77eed37_0.tar.bz2
-  sha256: 97d4d651cc6a0fce1f5f1fe093fd81454c4df919bbfd359f2044f56fd33618d1
-  md5: f907ad31e20e1562e2d65a849c3f603e
-  license: OFL-1.1
-  license_family: OTHER
-  size: 179752686
-  timestamp: 1647882350774
 - conda: https://conda.anaconda.org/conda-forge/linux-64/libgcc-15.1.0-h767d61c_3.conda
   sha256: 59a87161212abe8acc57d318b0cc8636eb834cdfdfddcf1f588b5493644b39a3
   md5: 9e60c55e725c20d23125a5f0dd69af5d

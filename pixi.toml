@@ -9,4 +9,3 @@ version = "0.1.0"
 
 [dependencies]
 quarto = ">=1.7.32,<2"
-font-ttf-noto-cjk = ">=2.4,<3"
