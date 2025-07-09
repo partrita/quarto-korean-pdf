@@ -15,9 +15,8 @@ RUN apt-get update && \
     ca-certificates \
     fontconfig \
     locales \
-    # 추가: Noto CJK 폰트 패키지 설치
-    # 대부분의 Noto CJK 폰트(Sans, Serif 등)를 포함합니다.
-    fonts-noto-cjk \
+    # 추가: Noto CJK 폰트 패키지 설치 <- 이 부분 제거 또는 주석 처리
+    # fonts-noto-cjk \
     # 추가: 시스템 폰트 유틸리티
     # fc-cache와 같은 명령어를 제공합니다.
     fontconfig \
@@ -46,9 +45,9 @@ RUN pixi install --frozen
 # TinyTeX 설치 (Quarto를 통해)
 RUN pixi run quarto install tool tinytex
 
-# 폰트 캐시 업데이트
+# 폰트 캐시 업데이트 <- 이 부분 제거 또는 주석 처리
 # 시스템에 새로 설치된 폰트를 인식하도록 폰트 캐시를 업데이트합니다.
-RUN sudo fc-cache -fv
+# RUN sudo fc-cache -fv
 
 # Quarto 프로젝트를 렌더링하는 예시 (컨테이너 시작 시 자동으로 실행)
 COPY mybook/ ./mybook/

@@ -35,7 +35,7 @@ format:
       text: |
         \usepackage{pdfpages}
     
-mainfont: "Noto Serif CJK KR"
-sansfont: "Noto Sans CJK KR"
+mainfont: "./_font/KoPubWorld Batang Medium.ttf"
+sansfont: "./_font/KoPubWorld Dotum Medium.ttf"
 
 
