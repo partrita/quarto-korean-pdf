@@ -4,7 +4,7 @@ project:
 book:
   title: "mybook"
   author: "Taeyoon Kim"
-  date: "7/8/2025"
+  date: "2025-07-14"
   chapters:
     - index.qmd
     - intro.qmd
@@ -20,17 +20,27 @@ format:
       - cosmo
       - brand
   pdf:
-    documentclass: report
+    documentclass: book
     papersize: a4
+    mainfont: "Noto Serif CJK KR"
+    sansfont: "Noto Sans CJK KR"
     toc: true
     toc-depth: 2
+    # include list of figures, list of tables
+    lof: true
+    lot: true
+    geometry:
+      - top=30mm
+      - left=20mm
+      - heightrounded
     number-sections: true
     colorlinks: true
     fig_width: 3
     fig_height: 2
     fig_caption: true
     df_print: kable
-    highlight: tango
+    highlight-style: github
+    cite-method: biblatex
     include-in-header: 
       text: |
         \usepackage{pdfpages}
