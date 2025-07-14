@@ -24,7 +24,7 @@ RUN apt-get update && \
     && \
     rm -rf /var/lib/apt/lists/*
 
-# 한국어 로케일 설정 (Noto CJK 폰트 사용을 위해 권장)
+# 한국어 로케일 설정 (Noto 폰트 사용을 위해 권장)
 ENV LANG=ko_KR.UTF-8
 ENV LANGUAGE=ko_KR:en
 ENV LC_ALL=ko_KR.UTF-8
@@ -51,5 +51,5 @@ RUN pixi run quarto install tool tinytex
 RUN sudo fc-cache -fv
 
 # Quarto 프로젝트를 렌더링하는 예시 (컨테이너 시작 시 자동으로 실행)
-COPY mybook/ ./mybook/
-CMD cd mybook && pixi run quarto render --to pdf
+COPY docs/ ./docs/
+CMD cd docs && pixi run quarto render --to pdf

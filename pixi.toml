@@ -2,10 +2,12 @@
 authors = ["deepthought <deepthough@postech.ac.kr>"]
 channels = ["conda-forge"]
 name = "learn_quarto"
-platforms = ["linux-64"]
+platforms = ["linux-64", "osx-arm64", "win-64"]
 version = "0.1.0"
 
 [tasks]
+# install-r-packages = "R -e 'install.packages(c(\"opendatatoronto\", \"datasauRus\"), repos=\"https://cloud.r-project.org/\")'"
+# install-r-github-packages = "R -e 'devtools::install_github(c(\"ttimbers/canlang\", \"sharlagelfand/astrologer\"))'"
 
 [dependencies]
 quarto = ">=1.7.32,<2"
