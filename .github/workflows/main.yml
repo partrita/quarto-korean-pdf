@@ -42,16 +42,16 @@ jobs:
 
       - name: Render Quarto book to PDF
         # 이 단계는 Quarto 프로젝트 파일(예: .qmd 파일)이 리포지토리의
-        # 'docs'이라는 디렉토리 내에 있다고 가정합니다.
+        # 'mybook'이라는 디렉토리 내에 있다고 가정합니다.
         run: |
-          cd docs
+          cd mybook
           pixi run quarto render --to pdf
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
           name: quarto-pdf-book
-          path: docs/_book/docs.pdf
+          path: mybook/_book/book.pdf
           # 생성된 PDF 파일을 'quarto-pdf-book'이라는 이름의 아티팩트로 업로드합니다.
 
   create-release:
@@ -78,6 +78,6 @@ jobs:
           tag_name: v${{ github.run_number }} # 워크플로우 실행 번호를 사용하여 태그 이름을 생성합니다.
           name: Release ${{ github.run_number }} # 릴리스 이름을 설정합니다.
           body: Automated release of Quarto PDF book. # 릴리스 본문을 설정합니다.
-          files: docs.pdf # 다운로드된 PDF 파일을 릴리스에 첨부합니다.
+          files: book.pdf # 다운로드된 PDF 파일을 릴리스에 첨부합니다.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub 토큰을 사용하여 릴리스를 인증합니다.

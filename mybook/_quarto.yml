@@ -1,0 +1,27 @@
+project:
+  type: book
+
+book:
+  title: "Untitled"
+  author: "Taeyoon Kim"
+  date: "2025. 7. 15."
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - summary.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+  pdf:
+    documentclass: scrreprt
+    mainfonts: Noto Serif CJK KR
+    sansfonts: Noto Sans CJK KR
+
+
+
