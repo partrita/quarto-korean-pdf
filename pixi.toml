@@ -1,7 +1,6 @@
 [workspace]
-authors = ["deepthought <deepthough@postech.ac.kr>"]
 channels = ["conda-forge"]
-name = "learn_quarto"
+#name = "learn_quarto"
 platforms = ["linux-64", "osx-arm64", "win-64"]
 version = "0.1.0"
 

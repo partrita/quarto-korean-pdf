@@ -48,6 +48,10 @@
     ```
     Quarto가 PDF를 렌더링하는 데 필요한 LaTeX 배포판인 TinyTeX를 설치합니다.
 
+4.  **Quarto 프로젝트 시작:**
+    ```bash
+    pixi run quarto create
+    ```
 
 ## 미리보기
 
@@ -74,8 +78,8 @@ pixi run quarto render --to pdf  # PDF 형식만 렌더링
 
 이 저장소는 GitHub Actions를 사용하여 다음을 자동화합니다.
 
-*   `main` 브랜치에 푸시하거나 풀 리퀘스트가 있을 때마다 `docs` 디렉터리 내의 Quarto 프로젝트를 빌드합니다.
-*   빌드된 PDF 파일(`docs.pdf`)을 워크플로 실행의 아티팩트로 업로드합니다. "quarto-pdf-book"이라는 이름으로 찾을 수 있습니다.
-*   `main` 브랜치에 푸시가 발생하면 새 GitHub 릴리스를 만들고 빌드된 PDF를 해당 릴리스에 첨부합니다.
+* `main` 브랜치에 푸시하거나 풀 리퀘스트가 있을 때마다 `docs` 디렉터리 내의 Quarto 프로젝트를 빌드합니다.
+* 빌드된 PDF 파일(`docs.pdf`)을 워크플로 실행의 아티팩트로 업로드합니다. "quarto-pdf-book"이라는 이름으로 찾을 수 있습니다.
+* `main` 브랜치에 푸시가 발생하면 새 GitHub 릴리스를 만들고 빌드된 PDF를 해당 릴리스에 첨부합니다.
 
 이 자동화는 `.github/workflows/main.yml` 파일에 정의되어 있습니다.

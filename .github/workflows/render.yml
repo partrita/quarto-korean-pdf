@@ -1,0 +1,63 @@
+name: Render PDF
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-quarto-book:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        # Dockerfile을 사용하여 'quarto-renderer'라는 이름의 이미지를 빌드합니다.
+        # 이 단계에서 Dockerfile에 정의된 모든 환경 설정(Pixi, TinyTeX, 폰트 복사 및 캐시 업데이트)이 처리됩니다.
+        run: docker build -t quarto-renderer .
+
+      - name: Render Quarto book to PDF in Docker container
+        # 빌드된 Docker 이미지를 실행하고, 현재 리포지토리(GitHub Actions 워크스페이스)를
+        # 컨테이너 내부의 /app 디렉토리에 마운트합니다.
+        # 컨테이너의 기본 CMD (Dockerfile에 정의된 'cd docs && pixi run quarto render --to pdf')가 실행됩니다.
+        # --rm 플래그는 컨테이너 종료 시 자동으로 컨테이너를 제거합니다.
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/app quarto-renderer
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: quarto-pdf-book
+          path: docs/_book/docs.pdf
+          # 생성된 PDF 파일을 'quarto-pdf-book'이라는 이름의 아티팩트로 업로드합니다.
+
+  create-release:
+    needs: build-quarto-book # 이 작업은 'build-quarto-book' 작업이 성공적으로 완료된 후에 실행됩니다.
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' # main 브랜치에 푸시할 때만 릴리스를 생성합니다.
+    permissions:
+      contents: write # 릴리스를 생성하고 파일을 업로드하기 위한 쓰기 권한이 필요합니다.
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        # 릴리스 작업을 위해 리포지토리를 체크아웃합니다.
+
+      - name: Download PDF artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: quarto-pdf-book
+          path: . # 이전 작업에서 업로드된 PDF 아티팩트를 현재 디렉토리로 다운로드합니다.
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ github.run_number }} # 워크플로우 실행 번호를 사용하여 태그 이름을 생성합니다.
+          name: Release ${{ github.run_number }} # 릴리스 이름을 설정합니다.
+          body: Automated release of Quarto PDF book. # 릴리스 본문을 설정합니다.
+          files: docs.pdf # 다운로드된 PDF 파일을 릴리스에 첨부합니다.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub 토큰을 사용하여 릴리스를 인증합니다.

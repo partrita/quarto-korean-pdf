@@ -1,0 +1,108 @@
+---
+title: "My document"
+format:
+  pdf:
+    documentclass: scrartcl
+    papersize: a4
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    colorlinks: true
+    mainfont: Times New Roman
+    sansfont: Open Sans
+    monofont: Roboto
+    CJKmainfont: KoPubWorldBatang
+execute:
+  warning: false
+  echo: false
+---
+
+# Summary
+
+In summary, this has no content whatsoever.
+
+---
+
+요약하자면 아무런 내용도 없습니다.
+
+## Add content
+
+### 그림
+
+마크다운
+
+![logo](./images/cover.png){#fig-LABEL fig-alt="ALT" width=300}
+
+```
+#| label: fig-LABEL
+#| fig-cap: CAP
+#| fig-alt: ALT
+#| eval: false
+
+import matplotlib.pyplot as plt
+
+plt.plot([1, 2, 3])
+```
+
+### Cross reference
+
+1. Add label
+  - code cell: add option label: predix-LABEL
+  - markdown: add attribute #prefix-LABEL
+2. add reference
+  - @fig-LABEL
+
+### 표
+
+| prefix | Renders |
+|:---|---|
+|fig- | Figure |
+|tbl- | Table |
+|eq- | Equation |
+|sec- | Section |
+
+:CAPTION(#tbl-LABEL)
+
+### 참조
+
+1. Add a biblography file to the YAML header:
+
+```
+biblography: references.bib
+```
+
+2. Add citations [@knuth84], or @knuth84
+
+### 콜아웃
+
+::: {.callout-note}
+노트
+:::
+
+::: {.callout-tip}
+팁
+:::
+
+::: {.callout-important}
+중요
+:::
+
+::: {.callout-caution}
+주의
+:::
+
+::: {.callout-warning}
+경고
+:::
+
+### 숏코드
+
+```
+{{<include _file.qmd>}}
+{{<embed file.ipynb#id>}}
+{{<video video.mp4>}}
+```
+
+## 기타
+
+- [한글 LaTeX](https://statkclee.quarto.pub/quarto-ds/quarto_latex.html)

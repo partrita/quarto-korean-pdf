@@ -4,30 +4,24 @@ FROM ubuntu:22.04
 # 환경 변수 설정 (옵션)
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 시스템 업데이트 및 필요한 도구 설치
-# sudo, curl, wget, git, ca-certificates, fontconfig 등 기본 도구를 설치합니다.
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    sudo \
-    curl \
-    wget \
-    git \
-    ca-certificates \
-    fontconfig \
-    locales \
-    # 추가: Noto CJK 폰트 패키지 설치
-    # 대부분의 Noto CJK 폰트(Sans, Serif 등)를 포함합니다.
-    fonts-noto-cjk \
-    # 추가: 시스템 폰트 유틸리티
-    # fc-cache와 같은 명령어를 제공합니다.
-    fontconfig \
-    && \
-    rm -rf /var/lib/apt/lists/*
 
-# 한국어 로케일 설정 (Noto 폰트 사용을 위해 권장)
-ENV LANG=ko_KR.UTF-8
-ENV LANGUAGE=ko_KR:en
-ENV LC_ALL=ko_KR.UTF-8
+# RUN apt-get update && \
+#     apt-get install -y --no-install-recommends \
+#     sudo \
+#     curl \
+#     wget \
+#     git \
+#     ca-certificates \
+#     fontconfig \
+#     locales \
+    # fonts-noto-cjk \
+#     && \
+#     rm -rf /var/lib/apt/lists/*
+
+# # 한국어 로케일 설정 (필요한 경우 유지)
+# ENV LANG=ko_KR.UTF-8
+# ENV LANGUAGE=ko_KR:en
+# ENV LC_ALL=ko_KR.UTF-8
 
 # Pixi 설치
 RUN curl -fsSL https://pixi.sh/install.sh | bash
@@ -38,17 +32,18 @@ WORKDIR /app
 
 # Pixi 환경 설정 (pixi.toml 및 pixi.lock 파일이 /app에 있다고 가정)
 COPY pixi.toml pixi.lock ./
-# Pixi를 통해 font-ttf-noto-cjk를 설치해도 되지만,
-# fonts-noto-cjk APT 패키지를 직접 설치하여 시스템 전반에서 인식되도록 하는 것이 더 견고할 수 있습니다.
-# 만약 pixi.toml에 font-ttf-noto-cjk가 있다면, 이 라인은 유지해도 됩니다.
 RUN pixi install --frozen
 
 # TinyTeX 설치 (Quarto를 통해)
 RUN pixi run quarto install tool tinytex
 
+# ./fonts 폴더를 이미지 내의 폰트 디렉토리로 복사
+# 이 경로는 시스템 폰트 경로에 포함되어야 합니다.
+COPY ./fonts/ /usr/local/share/fonts/
+
 # 폰트 캐시 업데이트
-# 시스템에 새로 설치된 폰트를 인식하도록 폰트 캐시를 업데이트합니다.
-RUN sudo fc-cache -fv
+# 모든 폰트 설치 및 복사 후 한 번만 실행하여 새로 설치된 폰트를 인식하도록 합니다.
+RUN fc-cache -fv
 
 # Quarto 프로젝트를 렌더링하는 예시 (컨테이너 시작 시 자동으로 실행)
 COPY docs/ ./docs/
